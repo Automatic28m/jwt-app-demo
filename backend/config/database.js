@@ -51,3 +51,21 @@ export async function register(fullname, email, encryptedPassword) {
 }
 
 //Login
+export async function login(email) {
+    try {
+        const [rows] = await pool.query(`
+            SELECT * 
+            FROM user
+            WHERE email = ?
+            `, [email]);
+        return rows
+
+    } catch (error) {
+        console.error("Login failed:", error.message);
+        return {
+            status: 500,
+            message: "Login failed",
+            error: error.message
+        }
+    }
+}
